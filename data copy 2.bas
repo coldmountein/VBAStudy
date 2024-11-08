@@ -26,7 +26,7 @@ Sub TransferData()
     If fileDialog.Show = -1 Then
         targetFilePath = fileDialog.SelectedItems(1)
     Else
-        MsgBox "未选择目标文件。操作已取消。", vbInformation
+        MsgBox "対象ファイルが選択されていません。操作はキャンセルされました。", vbInformation
         Exit Sub
     End If
     
@@ -77,6 +77,6 @@ Sub TransferData()
     targetWorkbook.Save
     targetWorkbook.Close
     
-    MsgBox "数据传输完成！", vbInformation
+    MsgBox "データ転送が完了しました！", vbInformation
 End Sub
 
