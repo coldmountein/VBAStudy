@@ -8,12 +8,15 @@ Sub TransferData()
     Dim sourceStartRow As Integer, targetStartRow As Integer
     Dim rowOffset As Integer, colOffset As Integer
     Dim lastRow As Long, numPeople As Long
+    Dim daysInMonth As Integer
+    
+    daysInMonth = Day(DateSerial(Year(Date), Month(Date) + 1, 0)) + 11
     
     Set sourceSheet = ThisWorkbook.Sheets("月次派遣集計表")
     
     lastRow = sourceSheet.Cells(sourceSheet.Rows.Count, 23).End(xlUp).Row
     
-    numPeople = (lastRow + 2) \ 41
+    numPeople = (lastRow + 2) \ daysInMonth
     
     Set fileDialog = Application.fileDialog(msoFileDialogFilePicker)
     fileDialog.Filters.Clear
@@ -26,12 +29,11 @@ Sub TransferData()
         Exit Sub
     End If
     
-    
     Set targetWorkbook = Workbooks.Open(targetFilePath)
     Set targetSheet = targetWorkbook.Sheets("出勤簿")
     
-    rowOffset = 41  
-    colOffset = 6   
+    rowOffset = daysInMonth
+    colOffset = 6
     
     sourceStartRow = 9
     targetStartRow = 4
@@ -62,4 +64,3 @@ Sub TransferData()
     
     MsgBox "データ転送が完了しました！", vbInformation
 End Sub
-

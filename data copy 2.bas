@@ -8,6 +8,10 @@ Sub TransferData()
     Dim sourceStartRow As Integer, targetStartRow As Integer
     Dim rowOffset As Integer, colOffset As Integer
     Dim lastRow As Long, numPeople As Long
+    Dim daysInMonth As Integer
+    
+    ' 计算当前月的天数并加上 11
+    daysInMonth = Day(DateSerial(Year(Date), Month(Date) + 1, 0)) + 11
     
     ' 设置源工作表为当前工作簿的"月次派遣集計表"
     Set sourceSheet = ThisWorkbook.Sheets("月次派遣集計表")
@@ -16,7 +20,7 @@ Sub TransferData()
     lastRow = sourceSheet.Cells(sourceSheet.Rows.Count, 23).End(xlUp).Row
     
     ' 计算出人数
-    numPeople = (lastRow + 2) \ 41
+    numPeople = (lastRow + 2) \ daysInMonth
     
     ' 创建文件对话框，选择目标文件
     Set fileDialog = Application.fileDialog(msoFileDialogFilePicker)
@@ -35,8 +39,8 @@ Sub TransferData()
     Set targetSheet = targetWorkbook.Sheets("出勤簿")
     
     ' 初始化偏移量
-    rowOffset = 41  ' 源文件行偏移量
-    colOffset = 6   ' 目标文件行偏移量
+    rowOffset = daysInMonth  ' 使用动态计算的天数 + 11
+    colOffset = 6            ' 目标文件列偏移量
     
     ' 设置初始起始行
     sourceStartRow = 9
@@ -79,4 +83,3 @@ Sub TransferData()
     
     MsgBox "データ転送が完了しました！", vbInformation
 End Sub
-
